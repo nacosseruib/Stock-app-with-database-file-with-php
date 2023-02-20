@@ -1,0 +1,82 @@
+<html>
+    <head>
+        <title>Stock</title>
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+              <div class="col-sm-4">
+                <form method="post">
+                    <div class="p-3">Stock</div>
+                    <hr />
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Product name</label>
+                        <input type="text" class="form-control" name="productName" placeholder="Product name">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Quantity in stock</label>
+                        <input type="text" class="form-control" name="quantity" placeholder="Quantity in stock">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Price per item</label>
+                        <input type="text" class="form-control" name="price" placeholder="Price per item">
+                    </div>
+                    <div class="p-1"><?php echo (isset($error) ? $error : '') ?></div>
+                    <div class="p-1"><?php echo (isset($message) ? $message : '') ?></div>
+                    <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                </form>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="row">
+                <div class="col-md-8">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Product name</th>
+                                <th>Quantity in stock</th>
+                                <th>Price per item</th>
+                                <th>Datetime submitted</th>
+                                <th>Total value number</th>
+                            </tr>
+                            <?php 
+                                $total = 0.0;
+                                if(isset($allStacks) && $allStacks){
+                                    foreach ($allStacks as $key =>$stock) { 
+                            ?>
+                                    <tr>
+                                        <td> <?= ($key + 1); ?> </td>
+                                        <td> <?= $stock->name; ?> </td>
+                                        <td> <?= $stock->quantiy; ?> </td>
+                                        <td> <?= number_format($stock->price, 2); ?> </td>
+                                        <td> <?= $stock->date_time; ?> </td>
+                                        <td> <?= number_format($stock->total_value, 2); ?> </td>
+                                    </tr>
+                            <?php 
+                                    $total += $stock->total_value;
+                                    }
+                                }else{
+                            ?>
+                            <tr>
+                                <td colspan="6"> No record founds ! </td>
+                            </tr>
+                            <?php 
+                                }
+                            ?>
+                            <tr>
+                                <td colspan="5"> Total: </td>
+                                <td> <?= number_format($total, 2); ?> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
